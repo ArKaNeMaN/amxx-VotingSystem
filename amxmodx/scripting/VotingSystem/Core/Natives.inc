@@ -7,6 +7,7 @@ public plugin_natives() {
     Natives_Init(API_PREFIX);
     Natives_Reg("Init");
     Natives_Reg("Voting_Create");
+    Natives_Reg("Voting_Remove");
     Natives_Reg("Voting_AddListener");
     Natives_Reg("Voting_Start");
     Natives_Reg("Voting_GetCurrent");
@@ -22,6 +23,15 @@ VS_T_Voting:@_Voting_Create() {
     get_string(P_Title, sTitle, charsmax(sTitle));
     
     return Votings_Create(sTitle);
+}
+
+VS_T_Voting:@_Voting_Remove() {
+    enum {P_Voting = 1}
+    new VS_T_Voting:iVoting = VS_T_Voting:get_param_byref(P_Voting);
+    
+    Voting_Remove(iVoting);
+    set_param_byref(P_Voting, iVoting);
+    return iVoting;
 }
 
 @_Voting_AddListener(iPluginId) {

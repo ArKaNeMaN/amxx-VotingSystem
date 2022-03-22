@@ -28,9 +28,20 @@ native VS_Init();
 /**
  * Создание нового голосования
  *
+ * @param sTitle    Заголовок меню голосоавния
+ *
  * @return  Хендлер созданного голосования
 */
 native VS_T_Voting:VS_Voting_Create(const sTitle[]);
+
+/**
+ * Удаление голосования и всех его пунктов
+ *
+ * @param iVoting   Хендлер голосования
+ *
+ * @return  Invalid_Voting
+*/
+native VS_T_Voting:VS_Voting_Remove(&VS_T_Voting:iVoting);
 
 /**
  * Добавление слушалки события

@@ -21,9 +21,19 @@ stock __Votings_GetHandlerKey_str[16];
 #define Votings_GetHandlerKey(%1) \
     (num_to_str(_:%1, __Votings_GetHandlerKey_str, charsmax(__Votings_GetHandlerKey_str)) ? __Votings_GetHandlerKey_str : NULL_STRING)
 
+// Votings_Set(Voting[S_Voting]);
 #define Votings_Set(%1) \
     TrieSetArray(Votings_gList, Votings_GetHandlerKey(Votings_GetId(%1)), %1, S_Voting)
 
+// Votings_Unset(Voting[S_Voting]);
+#define Votings_Unset(%1) \
+    TrieDeleteKey(Votings_gList, Votings_GetHandlerKey(Votings_GetId(%1)))
+
+// bool:Votings_IsValid(VS_T_Voting:iVoting);
+#define Votings_IsValid(%1) \
+    TrieKeyExists(Votings_gList, Votings_GetHandlerKey(%1))
+
+// Votings_Get(VS_T_Voting:iVoting, Voting[S_Voting]);
 #define Votings_Get(%1,%2) \
     TrieGetArray(Votings_gList, Votings_GetHandlerKey(%1), %2, S_Voting)
 
@@ -57,13 +67,31 @@ VS_T_Voting:Votings_Create(const sTitle[]) {
     return Votings_GetId(Voting);
 }
 
+VS_T_Voting:Votings_Remove(&VS_T_Voting:iVoting) {
+    new Voting[S_Voting];
+    Votings_Get(iVoting, Voting);
+
+    Events_Destroy(Voting[Voting_Events]);
+
+    // TODO: Удаление пунктов голосования
+    ArrayDestroy(Voting[Voting_Options]);
+
+    Votings_Unset(Voting);
+    iVoting = Invalid_Voting;
+    return Invalid_Voting;
+}
+
 Votings_PushListener(const VS_T_Voting:iVoting, const VS_E_VotingEvent:iEvent, const iForwardHandler) {
     new Voting[S_Voting];
     Votings_Get(iVoting, Voting);
     Events_PushListener(Voting[Voting_Events], iEvent, iForwardHandler);
 }
 
-Votings_Start(const VS_T_Voting:iVoting) {
+bool:Votings_Start(const VS_T_Voting:iVoting) {
+    if (Votings_gCurrentVoting != Invalid_Voting) {
+        return false;
+    }
+
     new Voting[S_Voting];
     Votings_Get(iVoting, Voting);
 

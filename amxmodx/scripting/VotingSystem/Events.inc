@@ -14,7 +14,7 @@ Functions & Macroses:
     Events_GetReturnedValue();
 */
 
-// Txh: https://dev-cs.ru/threads/222/page-12#post-103174
+// Thx: https://dev-cs.ru/threads/222/page-12#post-103174
 #define Events_CompositeMacros(%1) \
     do { %1 } while(is_linux_server() == 0xDEADBEEF)
 
@@ -27,6 +27,20 @@ T_Events:Events_Init(const iEnum) {
     }
 
     return T_Events:aEvents;
+}
+
+T_Events:Events_Destroy(&T_Events:aEvents) {
+    if (aEvents == Invalid_Events) {
+        Dbg_Log("Tried to destroy an invalid event handler.");
+        return;
+    }
+
+    for (new i = 0; i < ArraySize(aEvents); i++) {
+        DestroyForward(ArrayGetCell(aEvents, i));
+    }
+    ArrayDestroy(aEvents);
+
+    return Invalid_Events;
 }
 
 #define Events_AddListener(%1,%2,%3) \
