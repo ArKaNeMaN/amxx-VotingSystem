@@ -100,4 +100,6 @@ bool:Votings_Start(const VS_T_Voting:iVoting) {
     Votings_gCurrentVoting = iVoting;
     Forwards_CallP("StartVoting", iVoting);
     Votings_CallEvent(Voting, VS_VotingEvent_OnStart);
+
+    return true; 
 }

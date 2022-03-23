@@ -59,9 +59,9 @@ native VS_Voting_AddListener(const VS_T_Voting:iVoting, const VS_E_VotingEvent:i
  *
  * @param iVoting   Хендлер голосования
  *
- * @noreturn
+ * @return true, если голосование запущено успешно, иначе false
 */
-native VS_Voting_Start(const VS_T_Voting:iVoting);
+native bool:VS_Voting_Start(const VS_T_Voting:iVoting);
 
 /**
  * Запуск голосования

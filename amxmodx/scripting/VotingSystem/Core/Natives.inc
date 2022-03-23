@@ -29,8 +29,8 @@ VS_T_Voting:@_Voting_Remove() {
     enum {P_Voting = 1}
     new VS_T_Voting:iVoting = VS_T_Voting:get_param_byref(P_Voting);
     
-    Voting_Remove(iVoting);
-    set_param_byref(P_Voting, iVoting);
+    Votings_Remove(iVoting);
+    set_param_byref(P_Voting, _:iVoting);
     return iVoting;
 }
 
@@ -48,11 +48,11 @@ VS_T_Voting:@_Voting_Remove() {
     }
 }
 
-@_Voting_Start() {
+bool:@_Voting_Start() {
     enum {P_Voting = 1}
     new VS_T_Voting:iVoting = VS_T_Voting:get_param(P_Voting);
     
-    Votings_Start(iVoting);
+    return Votings_Start(iVoting);
 }
 
 VS_T_Voting:@_Voting_GetCurrent() {

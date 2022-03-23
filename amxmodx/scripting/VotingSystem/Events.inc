@@ -32,13 +32,13 @@ T_Events:Events_Init(const iEnum) {
 T_Events:Events_Destroy(&T_Events:aEvents) {
     if (aEvents == Invalid_Events) {
         Dbg_Log("Tried to destroy an invalid event handler.");
-        return;
+        return Invalid_Events;
     }
 
-    for (new i = 0; i < ArraySize(aEvents); i++) {
-        DestroyForward(ArrayGetCell(aEvents, i));
+    for (new i = 0; i < ArraySize(Array:aEvents); i++) {
+        DestroyForward(ArrayGetCell(Array:aEvents, i));
     }
-    ArrayDestroy(aEvents);
+    ArrayDestroy(Array:aEvents);
 
     return Invalid_Events;
 }
